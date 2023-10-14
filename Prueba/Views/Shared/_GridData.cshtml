@@ -1,0 +1,62 @@
+﻿@model Prueba.Models.ClienteCollection
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tblCliente").DataTable({
+            searching: false, ordering: false, info: false, lengthChange: false, pagingType: "numbers", fixedColumns: true
+        }).columns.adjust().draw();
+    });
+
+    
+    function TablaSinDatos() {
+        $('#tblCliente').DataTable();
+        $(".dataTables_empty").text("No hay información para mostrar.");
+    }
+
+</script>
+
+<table class="table table-bordered" id="tblCliente">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Id
+            </th>
+            <th class="text-center">
+                Cliente
+            </th>
+            <th class="text-center">
+                Teléfono
+            </th>
+            <th class="text-center">
+                E-mail
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lstCliente)
+        {
+            string nombre = string.Format("{0} {1} {2}", item.Nombre, item.ApellidoPaterno, item.ApellidoMaterno);
+            <tr>
+                <td>
+                    @item.IdCliente
+                </td>
+                <td>
+                    @nombre
+                </td>
+                <td>
+                    @item.Telefono
+                </td>
+                <td>
+                    @item.Email
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.lstCliente.Any())
+{
+    <script>
+        TablaSinDatos();
+    </script>
+}

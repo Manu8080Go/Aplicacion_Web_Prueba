@@ -1,0 +1,124 @@
+﻿@model Prueba.Models.ClienteModel
+@{
+    ViewBag.Title = "Cliente";
+}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        BuscarData();
+    });
+
+    function BuscarData() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetClientes", "Home")',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'html',
+            success: function (data) {
+                $('#tblCliente').html(data);
+            }
+        });
+    }
+
+    function SaveData() {
+        var objCliente = new Object();
+        var nombre = $("#txtNombre").val();
+        var apellidoPaterno = $("#txtApellidoPaterno").val();
+        var apellidoMaterno = $("#txtApellidoMaterno").val();
+        var telefono = $("#txtTelefono").val();
+        var email = $("#txtEmail").val();
+
+        if (nombre.trim() === '' || apellidoPaterno.trim() === '' || apellidoMaterno.trim() === ''
+            || telefono.trim() === '' || email.trim() === '') {
+
+            alert('Todos los campos son obligatorios.');
+
+        } else {
+
+            objCliente.Nombre = nombre;
+            objCliente.ApellidoPaterno = apellidoPaterno;
+            objCliente.ApellidoMaterno = apellidoMaterno;
+            objCliente.Telefono = telefono;
+            objCliente.Email = email;
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveDataCliente", "Home")',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ model: objCliente }),
+                dataType: 'json',
+                success: function (data) {
+                    if (data === 1) {
+                        alert('Datos Guardados.');
+                    } else {
+                        alert(data);
+                    }
+
+                    window.location.reload();
+                }
+            });
+
+        }
+    }
+
+</script>
+
+
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="" style="text-align: center;color:#C00000;">
+        <h3><b>Clientes</b></h3>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Nombre)
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="txtNombre" placeholder="Nombre">
+            </div>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoPaterno)
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="txtApellidoPaterno" placeholder="ApellidoPaterno">
+            </div>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoMaterno)
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="txtApellidoMaterno" placeholder="ApellidoMaterno">
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Telefono)
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="txtTelefono" placeholder="Teléfono">
+            </div>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Email)
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="txtEmail" placeholder="Email">
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <br />
+            <button style="width:100%;" onclick="SaveData();" class="btn btn-primary" type="button">Guardar</button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div id="tblCliente">
+
+    </div>
+</asp:Content>

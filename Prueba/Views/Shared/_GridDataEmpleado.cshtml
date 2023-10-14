@@ -1,0 +1,57 @@
+﻿@model Prueba.Models.EmpleadoCollection
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tblEmpleado").DataTable({
+            searching: false, ordering: false, info: false, lengthChange: false, pagingType: "numbers", fixedColumns: true
+        }).columns.adjust().draw();
+    });
+
+
+    function TablaSinDatos() {
+        $('#tblEmpleado').DataTable();
+        $(".dataTables_empty").text("No hay información para mostrar.");
+    }
+
+</script>
+
+<table class="table table-bordered" id="tblEmpleado">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Id
+            </th>
+            <th class="text-center">
+                Empleado
+            </th>
+            <th class="text-center">
+                No. Empleado
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lstEmpleado)
+        {
+            string nombre = string.Format("{0} {1} {2}", item.NombreEmpleado, item.ApellidoPaternoEmpleado, item.ApellidoMaternoEmpleado);
+            <tr>
+                <td>
+                    @item.IdEmpleado
+                </td>
+                <td>
+                    @nombre
+                </td>
+                <td>
+                    @item.NoEmpleado
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.lstEmpleado.Any())
+{
+    <script>
+        TablaSinDatos();
+    </script>
+}
+

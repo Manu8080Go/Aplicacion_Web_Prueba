@@ -1,4 +1,4 @@
-﻿@model Prueba.Models.ClienteCollection
+﻿@model Prueba.Negocio.Model.ClienteCollection
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -7,7 +7,7 @@
         }).columns.adjust().draw();
     });
 
-    
+
     function TablaSinDatos() {
         $('#tblCliente').DataTable();
         $(".dataTables_empty").text("No hay información para mostrar.");

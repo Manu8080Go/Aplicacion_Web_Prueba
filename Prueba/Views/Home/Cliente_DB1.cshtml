@@ -1,12 +1,13 @@
-﻿@model Prueba.Models.ClienteModel
+﻿@model Prueba.Negocio.Model.ClienteModel
 @{
     ViewBag.Title = "Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-        crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         BuscarData();

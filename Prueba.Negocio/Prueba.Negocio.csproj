@@ -48,8 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClienteBL.cs" />
+    <Compile Include="EmpleadoBL.cs" />
     <Compile Include="GenericDB1Impl.cs" />
     <Compile Include="GenericDB2Impl.cs" />
+    <Compile Include="Model\ClienteCollection.cs" />
+    <Compile Include="Model\ClienteModel.cs" />
+    <Compile Include="Model\EmpleadoCollection.cs" />
+    <Compile Include="Model\EmpleadoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

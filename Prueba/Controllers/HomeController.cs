@@ -1,7 +1,7 @@
 ﻿using Prueba.DBContext.DB1;
 using Prueba.DBContext.DB2;
-using Prueba.Models;
 using Prueba.Negocio;
+using Prueba.Negocio.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,9 @@ namespace Prueba.Controllers
 {
     public class HomeController : Controller
     {
+        private ClienteBL clienteBL;
+        private EmpleadoBL empleadoBL;
+
         public ActionResult Cliente_DB1()
         {
             return View();
@@ -28,27 +31,15 @@ namespace Prueba.Controllers
         /// <returns></returns>
         public PartialViewResult GetClientes()
         {
-            List<ClienteModel> ListaCliente = new List<ClienteModel>();
+            List<ClienteModel> lstClientes;
             ClienteCollection collection = new ClienteCollection();
 
             try
             {
-                GenericDB1Impl<Cliente> impl = new GenericDB1Impl<Cliente>();
-                var lst = impl.GetAll();
-                
-                foreach(var item in lst)
-                {
-                    ClienteModel cliente = new ClienteModel();
-                    cliente.IdCliente = item.IdCliente;
-                    cliente.Nombre = item.Nombre;
-                    cliente.ApellidoPaterno = item.Apellido_Paterno;
-                    cliente.ApellidoMaterno = item.Apellido_Materno;
-                    cliente.Telefono = item.Telefono;
-                    cliente.Email = item.email;
-                    ListaCliente.Add(cliente);
-                }
-
-                collection.lstCliente = ListaCliente;
+                clienteBL = new ClienteBL();
+                lstClientes = new List<ClienteModel>();
+                lstClientes = clienteBL.GetClientes();
+                collection.lstCliente = lstClientes;
             }
             catch (Exception ex)
             {
@@ -69,16 +60,8 @@ namespace Prueba.Controllers
 
             try
             {
-                GenericDB1Impl<Cliente> impl = new GenericDB1Impl<Cliente>();
-                Cliente objCliente = new Cliente {
-                    Nombre = model.Nombre,
-                    Apellido_Paterno = model.ApellidoPaterno,
-                    Apellido_Materno = model.ApellidoMaterno,
-                    Telefono = model.Telefono,
-                    email = model.Email
-                };
-
-                result = impl.Create(objCliente);
+                clienteBL = new ClienteBL();
+                result = clienteBL.SaveDataCliente(model);
             }
             catch (Exception ex)
             {
@@ -94,26 +77,15 @@ namespace Prueba.Controllers
         /// <returns></returns>
         public PartialViewResult GetEmpleados()
         {
-            List<EmpleadoModel> ListaEmpleado = new List<EmpleadoModel>();
+            List<EmpleadoModel> lstEmpleados;
             EmpleadoCollection collection = new EmpleadoCollection();
 
             try
             {
-                GenericDB2Impl<Empleado> impl = new GenericDB2Impl<Empleado>();
-                var lst = impl.GetAll();
-
-                foreach (var item in lst)
-                {
-                    EmpleadoModel empleado = new EmpleadoModel();
-                    empleado.IdEmpleado = item.IdEmpleado;
-                    empleado.NombreEmpleado = item.Nombre_Empelado;
-                    empleado.ApellidoPaternoEmpleado = item.Apellido_Paterno_Emp;
-                    empleado.ApellidoMaternoEmpleado = item.Apellido_Materno_Emp;
-                    empleado.NoEmpleado = item.NoEmpleado;
-                    ListaEmpleado.Add(empleado);
-                }
-
-                collection.lstEmpleado = ListaEmpleado;
+                empleadoBL = new EmpleadoBL();
+                lstEmpleados = new List<EmpleadoModel>();
+                lstEmpleados = empleadoBL.GetEmpleados();
+                collection.lstEmpleado = lstEmpleados;
             }
             catch (Exception ex)
             {
@@ -134,16 +106,8 @@ namespace Prueba.Controllers
 
             try
             {
-                GenericDB2Impl<Empleado> impl = new GenericDB2Impl<Empleado>();
-                Empleado objCliente = new Empleado
-                {
-                    Nombre_Empelado = model.NombreEmpleado,
-                    Apellido_Paterno_Emp = model.ApellidoPaternoEmpleado,
-                    Apellido_Materno_Emp = model.ApellidoMaternoEmpleado,
-                    NoEmpleado = model.NoEmpleado
-                };
-
-                result = impl.Create(objCliente);
+                empleadoBL = new EmpleadoBL();
+                result = empleadoBL.SaveDataEmpleado(model);
             }
             catch (Exception ex)
             {
